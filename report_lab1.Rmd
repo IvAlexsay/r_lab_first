@@ -1,0 +1,28 @@
+---
+title: "report_1lab"
+output: html_document
+date: "2022-10-31"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Задание 1
+
+```{r}
+source("firstTask.R")
+df <- read.csv(file = "data\\lab1_e1.csv")
+results <- data.frame(lapply(df, fix_number_with_space))
+results
+```
+
+## Задание 2
+
+```{r}
+source("secondTask.R")
+load("data\\lab1_e2.Rdata")
+mean_temp_table <- get_mean_temp_table(all_data)
+mean_temp_table
+```
+
