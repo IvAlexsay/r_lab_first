@@ -11,7 +11,14 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Задание 1
 
 ```{r}
-source("firstTask.R")
+fix_number_with_space <- function(col)
+{
+  if (length(grep('[a-z]', col, ignore.case = T)) == 0)
+    col <- as.double(gsub(" ", "", col))
+  
+  return(col)
+}
+
 df <- read.csv(file = "data\\lab1_e1.csv")
 results <- data.frame(lapply(df, fix_number_with_space))
 results
@@ -20,7 +27,18 @@ results
 ## Задание 2
 
 ```{r}
-source("secondTask.R")
+get_mean_and_count <- function(x){
+  x_mean <- mean(x)
+  x_count <- length(x)
+  return (c(x_mean, x_count))
+}
+
+get_mean_temp_table <- function(data) {
+  combine_by_arg_table <- do.call(rbind, data)
+  modified_table <- aggregate(combine_by_arg_table$temp, by=list(combine_by_arg_table$id), get_mean_and_count)
+  modified_table <- modified_table[modified_table$x[,2] == 7,]
+  return (data.frame(id = modified_table$Group.1, mean_temp = modified_table$x[,1]))
+}
 load("data\\lab1_e2.Rdata")
 mean_temp_table <- get_mean_temp_table(all_data)
 mean_temp_table

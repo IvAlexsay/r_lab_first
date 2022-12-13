@@ -357,7 +357,14 @@ display: none;
 
 <div id="задание-1" class="section level2">
 <h2>Задание 1</h2>
-<pre class="r"><code>source(&quot;firstTask.R&quot;)
+<pre class="r"><code>fix_number_with_space &lt;- function(col)
+{
+  if (length(grep(&#39;[a-z]&#39;, col, ignore.case = T)) == 0)
+    col &lt;- as.double(gsub(&quot; &quot;, &quot;&quot;, col))
+  
+  return(col)
+}
+
 df &lt;- read.csv(file = &quot;data\\lab1_e1.csv&quot;)
 results &lt;- data.frame(lapply(df, fix_number_with_space))
 results</code></pre>
@@ -370,7 +377,18 @@ results</code></pre>
 </div>
 <div id="задание-2" class="section level2">
 <h2>Задание 2</h2>
-<pre class="r"><code>source(&quot;secondTask.R&quot;)
+<pre class="r"><code>get_mean_and_count &lt;- function(x){
+  x_mean &lt;- mean(x)
+  x_count &lt;- length(x)
+  return (c(x_mean, x_count))
+}
+
+get_mean_temp_table &lt;- function(data) {
+  combine_by_arg_table &lt;- do.call(rbind, data)
+  modified_table &lt;- aggregate(combine_by_arg_table$temp, by=list(combine_by_arg_table$id), get_mean_and_count)
+  modified_table &lt;- modified_table[modified_table$x[,2] == 7,]
+  return (data.frame(id = modified_table$Group.1, mean_temp = modified_table$x[,1]))
+}
 load(&quot;data\\lab1_e2.Rdata&quot;)
 mean_temp_table &lt;- get_mean_temp_table(all_data)
 mean_temp_table</code></pre>
